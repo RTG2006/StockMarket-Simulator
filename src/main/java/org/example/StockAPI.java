@@ -1,28 +1,13 @@
-package org.example;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.Random;
 
 public class StockAPI {
+    private static final Random random = new Random();
+
     public static String getStockPrice(String symbol) {
-        String price = "0.0";
-        try {
-            // ✅ Use the Python from your venv
-            ProcessBuilder pb = new ProcessBuilder(
-                    "./venv/bin/python3", "python/get_stock_price.py", symbol
-            );
-            pb.redirectErrorStream(true);
-            Process process = pb.start();
-
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
-            price = reader.readLine();
-
-            process.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return price;
+        // Generate a random stock price between 100.00 and 1000.00
+        double price = 100 + (900 * random.nextDouble());
+        // Round to 2 decimal places
+        price = Math.round(price * 100.0) / 100.0;
+        return String.valueOf(price);
     }
 }
